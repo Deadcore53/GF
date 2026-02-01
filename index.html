@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Forever 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#ff758c;
+  --bg2:#ff7eb3;
+  --card:rgba(255,255,255,0.25);
+  --text:#fff;
+}
+body.night{
+  --bg1:#141E30;
+  --bg2:#243B55;
+  --card:rgba(0,0,0,0.4);
+  --text:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:var(--text);
+}
+.container{
+  background:var(--card);
+  backdrop-filter:blur(15px);
+  border-radius:25px;
+  padding:30px;
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+h1{font-family:'Dancing Script',cursive;font-size:2.4rem}
+img{
+  width:120px;height:120px;border-radius:50%;
+  border:4px solid #fff;object-fit:cover;margin:15px 0;
+}
+#typing{min-height:55px;margin:10px 0}
+button{
+  border:none;padding:10px 20px;border-radius:25px;
+  margin:6px;font-size:.9rem;cursor:pointer;
+}
+.yes{background:#ff4d6d;color:white}
+.no{background:white;color:#ff4d6d}
+.toggle{background:#000;color:#fff;font-size:.8rem}
+.letter{
+  display:none;
+  font-family:'Dancing Script',cursive;
+  font-size:1.2rem;
+  line-height:1.6;
+  margin-top:15px;
+}
+.final{margin-top:10px;font-size:1.1rem}
+.heart{
+  position:absolute;color:#fff;opacity:.7;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0}
+  100%{transform:translateY(-10vh);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<!-- 🎵 MUSIC (tap to play for iPhone) -->
+<audio id="music" loop>
+  <source src="yung_kai_-_yung_kai_-_blue_Official_Music_Video_(mp3.pm).mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" onclick="playMusic()">
+  <h1>Jasel ❤️ Kahlyl</h1>
+
+  <img src="20260103_124456.jpg">
+
+  <div id="typing"></div>
+
+  <div id="countdown"></div>
+  <div id="distance"></div>
+
+  <button class="yes" onclick="yesLove()">YES 💕</button>
+  <button class="no" onclick="noLove()">NO 😢</button>
+  <button class="toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+
+  <div class="final" id="final"></div>
+
+  <!-- 💌 Love Letter -->
+  <div class="letter" id="letter">
+    My love,<br><br>
+    Even with oceans and miles between us,  
+    my heart has never felt closer to anyone but you.  
+    Every late night, every missed hug, every quiet prayer —  
+    they all carry your name.  
+    <br><br>
+    I promise to wait, to fight, and to choose you  
+    in every lifetime.  
+    <br><br>
+    Forever yours,  
+    <br>❤️
+  </div>
+</div>
+
+<script>
+/* 🎵 Tap to play music */
+function playMusic(){
+  document.getElementById("music").play();
+}
+
+/* 📱 Vibrate */
+function buzz(){ if(navigator.vibrate) navigator.vibrate(50); }
+
+/* 💌 Typing text */
+const msgs=[
+  "Distance is just a test of love…",
+  "And we are passing it together 💖",
+  "I choose you. Always."
+];
+let m=0,c=0;
+const t=document.getElementById("typing");
+function type(){
+  if(c<msgs[m].length){
+    t.innerHTML+=msgs[m].charAt(c++);
+    buzz();
+    setTimeout(type,70);
+  }else{
+    setTimeout(()=>{
+      t.innerHTML="";c=0;
+      m=(m+1)%msgs.length;
+      type();
+    },1500);
+  }
+}
+type();
+
+/* 💖 Buttons */
+function yesLove(){
+  buzz();
+  document.getElementById("final").innerHTML="I love you endlessly 💞";
+  document.getElementById("letter").style.display="block";
+}
+function noLove(){
+  buzz();
+  document.getElementById("final").innerHTML="Too late… I still love you 😌❤️";
+}
+
+/* 💍 Secret Proposal */
+let taps=0;
+document.querySelector("img").onclick=()=>{
+  taps++;
+  if(taps===5){
+    document.getElementById("final").innerHTML=
+      "💍 Will you marry me? 💖";
+  }
+}
+
+/* 🌙 Theme toggle */
+function toggleTheme(){
+  document.body.classList.toggle("night");
+}
+
+/* ⏳ Countdown */
+const meet=new Date("2028-06-01").getTime();
+setInterval(()=>{
+  const d=meet-new Date().getTime();
+  document.getElementById("countdown").innerHTML=
+    "⏳ Until we meet: "+Math.floor(d/86400000)+" days";
+},1000);
+
+/* 🌍 Distance Pampanga ↔ Quezon */
+const R=6371;
+const lat1=15.0794,lon1=120.62;
+const lat2=13.9414,lon2=121.622;
+function dist(){
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+
+    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+    Math.sin(dLon/2)**2;
+  document.getElementById("distance").innerHTML=
+    "🌍 Distance: "+Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)))+" km";
+}
+dist();
+
+/* 💕 Hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";h.innerHTML="❤";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+</script>
+
+</body>
+</html>
